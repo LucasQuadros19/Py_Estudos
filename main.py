@@ -13,5 +13,11 @@ site = BeautifulSoup(content, 'html.parser')
 
 noticia = site.find('div',{'class': 'feed-post-body'}) 
 
+titulo=noticia.find('a',{'class','feed-post-figure-link'})
+foto= titulo.find('img')
 
-print(noticia.prettify())
+print(foto.prettify())
+
+
+
+
