@@ -16,8 +16,10 @@ for produto in produtos:
     centavos = produto.find('span', {'class': 'andes-money-amount__cents andes-money-amount__cents--superscript-16'})
 
     if titulo is not None and preco is not None and centavos is not None:
-        print(titulo.text + "     R$:" + preco.text + "," + centavos.text)
+        valor=("R$:" + preco.text + "," + centavos.text)
+        print(titulo.text + "     " + valor)
     else:
-        print("Algum dos elementos não foi encontrado.")
+       valor=("R$:" + preco.text)
+       print(titulo.text + "     " + valor)
 
     print("  ")
