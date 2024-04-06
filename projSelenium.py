@@ -10,15 +10,24 @@ os.system('clear')
 options = webdriver.ChromeOptions()
 options.add_experimental_option("detach", True)
 # options.add_argument('window-size=400,800')
-# options.add_argument('--headless')
+# 
 navegador = webdriver.Chrome(options=options)
 
-navegador.get('https://www.airbnb.com.br')
+navegador.get('https://www.mercadolivre.com.br/')
 sleep(2)
 site= BeautifulSoup(navegador.page_source, 'html.parser')
 
-elemento_input = driver.find_element_by_id('bigsearch-query-location-input')
-elemento_input.send_keys('nurburg')
+elemento = navegador.find_element(By.TAG_NAME, 'input')
+elemento.send_keys('guitarra')
+elemento.submit()
+sleep(0.5)
+botao = navegador.find_element(By.CSS_SELECTOR, 'a[href*="applied_filter_name=Marca"][title="Epiphone"]')
+botao.click()
+
+
+
+
+
 
 
 
