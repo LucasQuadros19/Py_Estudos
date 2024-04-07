@@ -21,7 +21,7 @@ elemento = navegador.find_element(By.TAG_NAME, 'input')
 elemento.send_keys('guitarra')
 elemento.submit()
 sleep(0.5)
-botao = navegador.find_element(By.CSS_SELECTOR, 'a[href*="applied_filter_name=Marca"][title="Epiphone"]')
+botao = navegador.find_element(By.LINK_TEXT, "Yamaha")
 botao.click()
 
 
