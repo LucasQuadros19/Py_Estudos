@@ -1,0 +1,10 @@
+name_elements = driver.find_elements(By.XPATH, "//span[@class='a-size-medium a-color-base a-text-normal']")
+
+    index = 1
+    for name_element in name_elements:
+        name_element.click()
+        sleep(2)
+        print(f"Anúncio {index}")
+        driver.back()
+        sleep(2)
+        index += 1

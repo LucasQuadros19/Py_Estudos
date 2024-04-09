@@ -3,7 +3,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from time import sleep
-
+import os
+os.system('clear')
 options = webdriver.SafariOptions()
 options.headless = True
 driver = webdriver.Safari(options=options)
@@ -13,17 +14,24 @@ main_route = 's?i=stripbooks&rh=n%3A283155%2Cp_30%3AForgotten+Books%2Cp_n_featur
 driver.get(url_base + main_route)
 sleep(2)
 
-WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, 's-result-item')))
+#WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, 's-result-item')))
+pagination = driver.find_element(By.XPATH,"//span[@class='s-pagination-item s-pagination-disabled']")
+num=int(pagination.text)
+print(num-1)
+for page in range(num-1):   
 
-name_elements = driver.find_elements(By.XPATH, "//span[@class='a-size-medium a-color-base a-text-normal']")
+    name_elements = WebDriverWait(driver, 10).until(EC.visibility_of_all_elements_located((By.XPATH, "//span[@class='a-size-medium a-color-base a-text-normal']")))
 
-index = 1
-for name_element in name_elements:
-    name_element.click()
-    sleep(2)
-    print(f"Anúncio {index}")
-    driver.back()
-    sleep(2)
-    index += 1
-
+    index = 1
+    for name_element in name_elements:
+        name_element.click()
+        WebDriverWait(driver, 10).until(EC.url_changes)  
+        print(f"Anúncio {index}")
+        driver.back()
+        WebDriverWait(driver, 10).until(EC.url_changes)  
+        index += 1
+    
+    next_element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, "//a[@class='s-pagination-item s-pagination-next s-pagination-button s-pagination-separator']")))
+    next_element.click()
+    print("Page:", page + 2)
 driver.quit()

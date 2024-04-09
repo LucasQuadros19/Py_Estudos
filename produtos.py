@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import os
 
+
 os.system('clear')
 url_base = 'https://lista.mercadolivre.com.br/guitarras#D[A:guitarras,L:undefined]'
 pesquisa = "guitarra"   #input("Buscar produto:  ")
