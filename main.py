@@ -21,6 +21,7 @@ num = int(pagination.text)
 print(num - 1)
 
 for page in range(num - 1):   
+    sleep(2)
     name_elements = WebDriverWait(driver, 10).until(EC.visibility_of_all_elements_located((By.XPATH, "//span[@class='a-size-medium a-color-base a-text-normal']")))
     index = 1
     for name_element in name_elements:
