@@ -7,9 +7,10 @@ import os
 
 os.system('clear')
 
-options = webdriver.SafariOptions()
+options = webdriver.FirefoxOptions()
 options.headless = True
-driver = webdriver.Safari(options=options)
+options.add_argument("--headless")
+driver = webdriver.Firefox(options=options)
 
 url_base = 'https://www.amazon.com/'
 main_route = 's?i=stripbooks&rh=n%3A283155%2Cp_30%3AForgotten+Books%2Cp_n_feature_browse-bin%3A2656022011&s=exact-aware-popularity-rank&dc&language=pt&ds=v1%3AF62MM2U5pQxy5ihMMkiYz3DXl5SKe%2FaUTy9uSUSDxkc&Adv-Srch-Books-Submit.x=35&Adv-Srch-Books-Submit.y=4&qid=1712363856&unfiltered=1&ref=sr_st_exact-aware-popularity-rank'
@@ -25,13 +26,11 @@ for page in range(num - 1):
     name_elements = WebDriverWait(driver, 10).until(EC.visibility_of_all_elements_located((By.XPATH, "//span[@class='a-size-medium a-color-base a-text-normal']")))
     index = 1
     for name_element in name_elements:
+        sleep(2)
         try:
             print(name_element.text)  
-            name_element.click()
-            WebDriverWait(driver, 10).until(EC.url_changes)  
             print(f"Anúncio {index}")
-            driver.back()
-            WebDriverWait(driver, 10).until(EC.url_changes)  
+            
             index += 1
         except Exception as e:
             print(f"Erro ao interagir com o elemento: {e}")
