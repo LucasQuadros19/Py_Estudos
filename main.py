@@ -24,17 +24,32 @@ index = 1
 for page in range(num - 1):
     # Obter a lista atualizada de elementos após a navegação para a próxima página
     name_elements = WebDriverWait(driver, 10).until(EC.visibility_of_all_elements_located((By.XPATH, "//span[@class='a-size-medium a-color-base a-text-normal']")))
+    quantidade_itens = len(name_elements)
 
+    print("Número de itens na lista:", quantidade_itens)
     for name_element in name_elements:
+        print("books: ", name_element.text)
         try:
-            print("books: ", name_element.text)
-            print(f"Anúncio {index}")
             
-            index+1
+            print(f"Anúncio {index}")
+            sleep(0.5)
+            name_element.click()
+            sleep(2)
+            price_detail = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, "//span[@class='a-size-extra-large celwidget']")))
+            print(price_detail.text)
+            sleep(2)
+            driver.refresh()
+            sleep(2)
+            
+            driver.back()
+            sleep(0.5)
+            index += 1
+            name_elements = WebDriverWait(driver, 10).until(EC.visibility_of_all_elements_located((By.XPATH, "//span[@class='a-size-medium a-color-base a-text-normal']")))
+
+
         except Exception as e:
             print(f"Erro ao interagir com o elemento: {e}")
             continue
-        
 
     try:
         next_button = WebDriverWait(driver, 10).until(
