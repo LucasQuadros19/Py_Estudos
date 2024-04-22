@@ -15,41 +15,47 @@ sleep(2)
 
 WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, 's-result-item')))
 
-name_element = driver.find_element(By.XPATH, "//span[@class='a-size-medium a-color-base a-text-normal']")
+# Encontrar todos os elementos de nome de livro
+name_elements = driver.find_elements(By.XPATH, "//span[@class='a-size-medium a-color-base a-text-normal']")
 
+# Iterar sobre todos os elementos de nome de livro
+for name_element in name_elements:
+    # Clicar no nome do livro para ver detalhes
+    name_element.click() 
+    sleep(5)
 
+    # Encontrar elementos de detalhes do livro
+    name_detail = driver.find_element(By.XPATH, "//span[@class='a-size-extra-large celwidget']")
+    price_detail = driver.find_element(By.XPATH, "//span[@class='a-size-medium a-color-price header-price a-text-normal']")
+    detail_section = driver.find_element(By.ID, 'detailBulletsWrapper_feature_div')
 
-name_element.click() 
-sleep(5)
+    uls = detail_section.find_elements(By.CLASS_NAME, 'a-unordered-list')
 
-name_detail = driver.find_element(By.XPATH, "//span[@class='a-size-extra-large celwidget']")
-price_detail = driver.find_element(By.XPATH, "//span[@class='a-size-medium a-color-price header-price a-text-normal']")
-detail_section = driver.find_element(By.ID, 'detailBulletsWrapper_feature_div')
+    if len(uls) >= 2:
+        first_ul = uls[0]
+        firstList_ul = first_ul.find_elements(By.TAG_NAME, 'li')
+        second_ul = uls[1]
+        secondList_ul = second_ul.find_elements(By.TAG_NAME, 'li')
 
-uls = detail_section.find_elements(By.CLASS_NAME, 'a-unordered-list')
+        print("Book:", name_detail.text, price_detail.text)
 
-if len(uls) >= 2:
-    first_ul = uls[0]
-    firstList_ul = first_ul.find_elements(By.TAG_NAME, 'li')
-    second_ul = uls[1]
-    secondList_ul = second_ul.find_elements(By.TAG_NAME, 'li')
+        # Imprimir informações do primeiro ul
+        for i in range(1, len(firstList_ul)): 
+            spans = firstList_ul[i].find_elements(By.TAG_NAME, 'span')
+            if len(spans) >= 2:
+                print(spans[2].text.strip(), end=', ')
 
-print("Book:", name_detail.text, price_detail.text)
+        # Imprimir informações do segundo ul
+        for li in secondList_ul:
+            spans = li.find_elements(By.TAG_NAME, 'span')
+            if spans:
+                for index, span in enumerate(spans):
+                    print(f"[{index}] {span.text.strip()}", end=', ')
+    else:
+        print("Two uls with the class 'a-unordered-list' were not found")
 
-for i in range(1, len(firstList_ul)): 
-    spans = firstList_ul[i].find_elements(By.TAG_NAME, 'span')
-    if len(spans) >= 2:
-        print(spans[2].text.strip(), end=', ')
+    # Voltar para a página anterior para continuar a iterar
+    driver.back()
+    sleep(5)
 
-# Print information from the second ul
-for li in secondList_ul:
-    spans = li.find_elements(By.TAG_NAME, 'span')
-    if spans:
-        for index, span in enumerate(spans):
-                print(f"[{index}] {span.text.strip()}", end=', ')
-else:
-    print("Two uls with the class 'a-unordered-list' were not found")
-    
-driver.back()
-sleep(5)
 driver.quit()
